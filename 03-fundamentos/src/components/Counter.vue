@@ -1,6 +1,7 @@
 <template>
   <h2>{{ customTitle }}</h2>
   <p>{{ counter }} <sup>2</sup> = {{ getSquareValue }}</p>
+  <p data-testid="counter">{{ counter }}</p>
 
   <div>
     <button @click="increase()">+1</button>
@@ -15,7 +16,7 @@ export default {
         title: String,
         start: {
             type: Number,
-            default: 10,
+            default: 101,
             validator( value ) {
                 return value > 100
             }
