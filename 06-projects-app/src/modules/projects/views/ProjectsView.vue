@@ -30,8 +30,27 @@
         subtitle="Dale un nombre único a tu proyecto"
      />
 
+     <custom-modal :open="customModalOpen">
+        <template #header>
+            <h1 class="text-3xl">Título del modal</h1>
+        </template>
+        <template #body>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        </template>
+        <template #footer>
+            <div class="flex justify-end mt-5">
+                <button @click="() => customModalOpen = false" class="btn mr-4">Close</button>
+                <button @click="() => customModalOpen = false" class="btn btn-primary">Aceptar</button>
+            </div>
+        </template>
+    </custom-modal>
+
     <fab-button @click="() => modalOpen = true" position="bottom-right">
         <add-circle />
+    </fab-button>
+
+    <fab-button @click="() => customModalOpen = true" position="bottom-left">
+        <modal-icon />
     </fab-button>
 </template>
 
@@ -40,9 +59,13 @@
     import FabButton from '@/modules/common/components/FabButton.vue';
     import InputModal from '@/modules/common/components/InputModal.vue';
     import AddCircle from '@/modules/common/icons/AddCircle.vue';
+    import CustomModal from '@/modules/common/components/CustomModal.vue';
+    import ModalIcon from '@/modules/common/icons/ModalIcon.vue';
 
     const modalOpen = ref(false);
-    const onNewValue = (projectName: string) => {
+    const customModalOpen = ref(false);
 
+    const onNewValue = (projectName: string) => {
+        console.log({projectName})
     }
 </script>
