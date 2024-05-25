@@ -2,7 +2,7 @@
     <div class="flex flex-col">
         <!-- top menu -->
         <top-menu />
-        <main>
+        <main class="flex flex-row">
             <!-- side menu -->
             <side-menu />
 
