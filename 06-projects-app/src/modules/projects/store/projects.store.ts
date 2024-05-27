@@ -28,6 +28,16 @@ export const useProjectsStore = defineStore('projects', () => {
         })
     }
 
+    const toggleTask = (projectId: string, taskId: string) => {
+        const project = projects.value.find(p => p.id === projectId);
+        if (!project) return;
+
+        const task = project.tasks.find(t => t.id === taskId);
+        if (!task) return;
+
+        task.completedAt = task.completedAt ? undefined : new Date();
+    }
+
     return {
         // properties
         // projects,
@@ -35,9 +45,24 @@ export const useProjectsStore = defineStore('projects', () => {
         // getters
         projectList: computed(() => [...projects.value]),
         noProjects: computed(() => projects.value.length === 0),
+        projectsWithCompletion: computed(() => {
+            return projects.value.map((project) => {
+                const completion = project.tasks.length
+                    ? (project.tasks.filter(t => t.completedAt).length / project.tasks.length) * 100
+                    : 0;
+                
+                return {
+                    id: project.id,
+                    name: project.name,
+                    taskCount: project.tasks.length,
+                    completion: completion,
+                }
+            })
+        }),
 
         // actions
         addProject,
         addTaskToProject,
+        toggleTask,
     }
 })
