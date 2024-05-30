@@ -21,5 +21,18 @@ describe('<FabButton />', () => {
         const button = wrapper.find('button');
 
         expect(button.classes()).toContain('top-left');
-    })
+    });
+
+    test('renders slot content inside button', () => {
+        const wrapper = shallowMount(FabButton, {
+            slots: {
+                default: '<span>Hola</span>',
+            },
+        });
+
+        const slotContent = wrapper.find('button span');
+        expect(slotContent.exists()).toBe(true);
+        expect(slotContent.text()).toBe('Hola');
+        
+    });
 })
