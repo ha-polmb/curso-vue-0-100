@@ -15,20 +15,16 @@
           </thead>
           <tbody class="text-gray-700">
             <tr
-              v-for="(product, index) in products"
-              :key="products.id"
+              v-for="(product, index) of products"
+              :key="product.id"
               :class="{ 'bg-gray-100': index % 2 === 0 }"
             >
               <td class="text-left py-3 px-4">
-                <img
-                  :src="product.images[0]"
-                  :alt="products.title"
-                  class="h-10 w-10 object-cover"
-                />
+                <img :src="product.images[0]" :alt="product.title" class="h-10 w-10 object-cover" />
               </td>
               <td class="text-left py-3 px-4">
                 <router-link
-                  :to="`/admin/products/${products.id}`"
+                  :to="`/admin/products/${product.id}`"
                   class="hover:text-blue-500 hover:underline"
                   >{{ product.title }}</router-link
                 >
@@ -53,13 +49,12 @@
 <script lang="ts" setup>
 import { getProductsAction } from '@/modules/products/actions';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 import ButtonPagination from '@/modules/common/components/ButtonPagination.vue';
+import { usePagination } from '@/modules/common/components/composables/usePagination';
+import { watchEffect } from 'vue';
 
-const route = useRoute();
-const page = ref(Number(route.query.page || 1));
 const queryClient = useQueryClient();
+const { page } = usePagination();
 
 const { data: products } = useQuery({
   queryKey: ['products', { page: page }],
@@ -67,12 +62,10 @@ const { data: products } = useQuery({
   staleTime: 1000 * 60,
 });
 
-watch(
-  () => route.query.page,
-  (newPage) => {
-    page.value = Number(newPage || 1);
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  },
-);
+watchEffect(() => {
+  queryClient.prefetchQuery({
+    queryKey: ['products', { page: page.value + 1 }],
+    queryFn: () => getProductsAction(page.value + 1),
+  });
+});
 </script>
