@@ -5,7 +5,7 @@ import { getProductImageAction } from './get-product-image.action';
 export const getProductsAction = async (page: number = 1, limit: number = 10) => {
   try {
     const { data } = await tesloApi.get<Product[]>(
-      `/products/?limit=${limit}&offset=${limit * page}`,
+      `/products/?limit=${limit}&offset=${limit * (page - 1)}`,
     );
 
     return data.map((product) => ({
