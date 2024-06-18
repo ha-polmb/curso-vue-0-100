@@ -19,12 +19,17 @@
 
     <q-separator />
 
-    <q-btn color="primary" label="Abrir menú lateral" class="q-mt-md" />
+    <q-btn color="primary" :label="sideMenuOpen ? 'Cerrar menú lateral' : 'Abrir menú lateral'" class="q-mt-md" @click="toggleSideMenu" />
   </q-page>
 </template>
 
 <script setup>
+import { useUI } from 'src/composables/useUI';
+
 defineOptions({
   name: "TypographyPage",
 });
+
+const {sideMenuOpen, toggleSideMenu} = useUI();
+
 </script>

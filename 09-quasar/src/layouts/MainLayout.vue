@@ -21,8 +21,7 @@
       v-model="sideMenuOpen"
       show-if-above
       bordered
-      @click="toggleSideMenu"
-      ><!-- ESTO BIEN O MAL ??  el @click de q-drawer-->
+      >
       <q-list>
         <q-item-label header> Essential Links </q-item-label>
 
@@ -41,19 +40,15 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
-import { ref, computed } from "vue";
+
 import EssentialLink from "components/EssentialLink.vue";
+import { useUI } from "src/composables/useUI";
 import { linksList } from "src/router/link-list";
 
 defineOptions({
   name: "MainLayout",
 });
 
-const store = useStore();
+const {sideMenuOpen, toggleSideMenu} = useUI()
 
-const sideMenuOpen = computed(() => store.getters["ui/isSideMenuOpen"]);
-const toggleSideMenu = () => {
-  store.commit("ui/toggleSideMenu");
-};
 </script>
