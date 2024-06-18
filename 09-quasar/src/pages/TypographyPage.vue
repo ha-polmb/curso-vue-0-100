@@ -16,6 +16,10 @@
 
     <p class="text-body1">Lorem ipsum</p>
     <p class="text-body2">Lorem ipsum</p>
+
+    <q-separator />
+
+    <q-btn color="primary" label="Abrir menú lateral" class="q-mt-md" />
   </q-page>
 </template>
 
