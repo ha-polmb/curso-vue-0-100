@@ -13,6 +13,11 @@ const actions: ActionTree<PlacesState, StateInterface> = {
       }
     );
   },
+
+  // TODO: valor retorno
+  async searchPlacesByTerm({ commit, state }, query: string) {
+    console.log("Vuex:", query);
+  },
 };
 
 export default actions;
