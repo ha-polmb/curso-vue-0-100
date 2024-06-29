@@ -5,8 +5,8 @@ import { defineComponent, ref, watch } from "vue"
 export default defineComponent({
   name: "SearchResults",
   setup() {
-    const { isLoadingPlaces, places } = usePlacesStore()
-    const { map, setPlaceMarkers } = useMapStore()
+    const { isLoadingPlaces, places, userLocation } = usePlacesStore()
+    const { map, setPlaceMarkers, getRouteBetweenPoints } = useMapStore()
     const activePlace = ref("")
 
     watch(places, (newPlaces) => {
@@ -27,6 +27,17 @@ export default defineComponent({
           center: [lng, lat],
           zoom: 14,
         })
+      },
+
+      getRouteDirections: (place: Feature) => {
+        if (!userLocation.value) return
+
+        const [lng, lat] = place.geometry.coordinates
+        const [startLng, startLat] = userLocation.value
+
+        const start: [number, number] = [startLng, startLat]
+        const end: [number, number] = [lng, lat]
+        getRouteBetweenPoints(start, end)
       },
     }
   },
